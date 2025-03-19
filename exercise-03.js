@@ -5,34 +5,31 @@
 */
 
 const normal = value => {
-    let result = 1;
-    let lastFactor = 1;
+    let lastFactor = 2;
 
-    for(let i = 2; i < value; i++) {
-        lastFactor = i;
-
-        while(lastFactor % i === 0) {
-            lastFactor = lastFactor / i;
+    while(value > 1) {
+        if(value % lastFactor === 0) {
+            value = value / lastFactor;
         }
-        if(value % i === 0) result = i;
+        else {
+            lastFactor++;
+        }
     }
 
-    return result;
+    return lastFactor;
 };
 
-const recursive = (value, a = 0, b = 1) => {
+const recursive = (value, lastFactor = 2) => {
     // base
-    if(b >= value) return 0;
+    if(value <= 1) return lastFactor;
 
     // recursive: positive case
-    if(b % 2 === 0) return b + recursive(value, b, a + b);
+    if(value % lastFactor === 0) return recursive(value / lastFactor, lastFactor);
 
     // recursive: negative case
-    return recursive(value, b, a + b);
+    return recursive(value, lastFactor + 1);
 };
 
-const VALUE = 20;
+const VALUE = 600851475143;
 console.log('Normal:', normal(VALUE));
-// console.log('Recursive:', recursive(VALUE));
-
-// 10
+console.log('Recursive:', recursive(VALUE));
